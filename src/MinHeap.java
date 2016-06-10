@@ -11,7 +11,7 @@ public class MinHeap {
 
 		// bubble up
 		while(true){
-			if(heap[child].getY() < heap[parent].getY()){
+			if(heap[child].getY() < heap[parent].getY() || (heap[child].getY() == heap[parent].getY() && heap[child].getX() < heap[parent].getX())){
 				Point temp = heap[child];
 				heap[child] = heap[parent];
 				heap[parent] = temp;
@@ -41,8 +41,10 @@ public class MinHeap {
 			if(child1 > n-1 || child2 > n-1) break;
 
 			// swap the parent with the least of its children in the case of min heap
-			if(heap[parent].getY() > heap[child1].getY() || heap[parent].getY() > heap[child2].getY()){
-				if(heap[child1].getY() < heap[child2].getY()){
+			if((heap[parent].getY() > heap[child1].getY() || (heap[parent].getY() == heap[child1].getY() && heap[parent].getX() > heap[child1].getX()))
+					|| (heap[parent].getY() > heap[child2].getY() || (heap[parent].getY() == heap[child2].getY() && heap[parent].getX() > heap[child2].getX()))){
+
+				if(heap[child1].getY() < heap[child2].getY() || (heap[child1].getY() == heap[child2].getY() && heap[child1].getX() < heap[child2].getX())){
 					Point temp = heap[child1];
 					heap[child1] = heap[parent];
 					heap[parent] = temp;

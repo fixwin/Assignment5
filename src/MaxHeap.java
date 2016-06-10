@@ -13,7 +13,7 @@ public class MaxHeap {
 		while(true){
 
 			// only need to compare newly inserted node and its parent
-			if(heap[child].getY() > heap[parent].getY()){
+			if(heap[child].getY() > heap[parent].getY() || (heap[child].getY() == heap[parent].getY() && heap[child].getX() > heap[parent].getX())){
 
 				// swap the child and the parent if the child is greater than parent in case of max heap
 				Point temp = heap[child];
@@ -49,8 +49,10 @@ public class MaxHeap {
 			if(child1 > n-1 || child2 > n-1) break;
 
 			// swap the parent with the largest of its two children
-			if(heap[parent].getY() < heap[child1].getY() || heap[parent].getY() < heap[child2].getY()){
-				if(heap[child1].getY() > heap[child2].getY()){
+			if((heap[parent].getY() < heap[child1].getY() || (heap[parent].getY() == heap[child1].getY() && heap[parent].getX() < heap[child1].getX()))
+					|| (heap[parent].getY() < heap[child2].getY()|| (heap[parent].getY() == heap[child2].getY() && heap[parent].getX() < heap[child2].getX()))){
+
+				if(heap[child1].getY() > heap[child2].getY() || (heap[child1].getY() == heap[child2].getY() && heap[child1].getX() > heap[child2].getX())){
 					Point temp = heap[child1];
 					heap[child1] = heap[parent];
 					heap[parent] = temp;
