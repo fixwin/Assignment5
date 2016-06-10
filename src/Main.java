@@ -11,9 +11,27 @@ public class Main {
 
 	public static void main(String[] args) 
 	{
-		testA();
-		testB();
-		testC();
+		//testA();
+		//testB();
+		//testC();
+		AVLTree t = new AVLTree();
+		Point a = new Point(1,2);
+		Point b = new Point(2,2);
+		Point c = new Point(3,2);
+		Point d = new Point(4,2);
+		Point e = new Point(5,2);
+		Point f = new Point(6,2);
+
+
+		t.insert(a);
+		t.insert(b);
+		t.insert(c);
+		t.insert(d);
+		t.insert(e);
+		t.insert(f);
+
+		t.remove(b,t.root);
+		t.printTree();
 	}
 
 	
