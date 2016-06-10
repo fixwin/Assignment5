@@ -1,27 +1,30 @@
 
 public class PointDataStructure implements PDT {
 	Point median;
-
+	MaxHeap maxHeap;
+	MinHeap minHeap;
 	//////////////// DON'T DELETE THIS CONSTRUCTOR ////////////////
 	public PointDataStructure(Point[] points, Point initialYMedianPoint) {
 		this.median = initialYMedianPoint;
+		maxHeap = new MaxHeap();
+		minHeap = new MinHeap();
 		boolean isSorted = checkSorted(points);
 		int medianIndex = getMedianIndex(points,initialYMedianPoint);
 		if (isSorted) { //if sorted->insert into heaps
 			for (int j=0; j<medianIndex; j++) {
-				//insert into max heap
+				maxHeap.insert(points[j]);
 			}
 			for (int j=medianIndex+1; j<points.length; j++) {
-				//insert into min heap
+				minHeap.insert(points[j]);
 			}
 		}
 		else { //if not sorted-> max value is n-1 and values are consecutive -> insert into heaps
 			for (int j=0; j<points.length; j++) {
 				if(points[j].getX() < this.median.getX()) {
-					//insert into max heap
+					maxHeap.insert(points[j]);
 				}
 				else {
-					// insert into min heap
+					minHeap.insert(points[j]);
 				}
 			}
 		}
