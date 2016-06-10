@@ -50,10 +50,9 @@ public class PointDataStructure implements PDT {
 
 		}
 	}
-
 	@Override
 	public Point[] getPointsInRange(int XLeft, int XRight) {
-		//
+		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -72,9 +71,22 @@ public class PointDataStructure implements PDT {
 	@Override
 	public void removeMedianPoint() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public Point[] getMedianPoints(int k) {
-		// TODO Auto
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Point[] getAllPoints() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	//TODO: add members, methods, etc.
+
+}
+
