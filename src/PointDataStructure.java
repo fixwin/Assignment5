@@ -22,7 +22,7 @@ public class PointDataStructure implements PDT {
 		medianIndex = getMedianIndex(points,initialYMedianPoint);
 		for (int j=0; j<points.length; j++) {
 			if(points[j].equals(this.median)) continue;
-			if(points[j].getY() < this.median.getY()) {
+			if(points[j].getY() < this.median.getY() || (points[j].getY() == this.median.getY() && points[j].getX() < this.median.getX())) {
 				maxHeap.insert(points[j]);
 			}
 			else {
