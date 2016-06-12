@@ -12,7 +12,7 @@ public class Main {
 	public static void main(String[] args) 
 	{
 		testA();
-		//testB();
+		testB();
 		//testC();
 		/*AVLTree t = new AVLTree();
 		Point a0 = new Point(0,0);
@@ -74,24 +74,24 @@ public class Main {
 		double resultD = pdt.averageHeightInRange(XLeft, XRight);
 		testExpected(testName, expectedD, resultD);
 		
-//		testName = "A3.1";
-//		Point[] expectedPoints1 = {
-//				new Point(1, 2),
-//				};
-//		//testExpectedPoints(testName, expectedPoints1, pdt.getMedianPoints(1));
-//		testName = "A3.2";
-//		Point[] expectedPoints2 = {
-//				new Point(3, 1),
-//				new Point(1, 2),
-//				};
-//		//testExpectedPoints(testName, expectedPoints2, pdt.getMedianPoints(2));
-//		testName = "A3.3";
-//		Point[] expectedPoints3 = {
-//				new Point(3, 1),
-//				new Point(2, 3),
-//				new Point(1, 2),
-//				};
-//		//testExpectedPoints(testName, expectedPoints3, pdt.getMedianPoints(3));
+		testName = "A3.1";
+		Point[] expectedPoints1 = {
+				new Point(1, 2),
+				};
+		testExpectedPoints(testName, expectedPoints1, pdt.getMedianPoints(1));
+		testName = "A3.2";
+		Point[] expectedPoints2 = {
+				new Point(3, 1),
+				new Point(1, 2),
+				};
+		testExpectedPoints(testName, expectedPoints2, pdt.getMedianPoints(2));
+		testName = "A3.3";
+		Point[] expectedPoints3 = {
+				new Point(3, 1),
+				new Point(2, 3),
+				new Point(1, 2),
+				};
+		testExpectedPoints(testName, expectedPoints3, pdt.getMedianPoints(3));
 
 		Point[] points2 = {
 				new Point(1, 4), 

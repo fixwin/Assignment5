@@ -133,14 +133,14 @@ class AVLTree {
     public AVLNode minimum(AVLNode t) {
         AVLNode retVal = t;
         while (retVal.left != null) {
-            retVal = t.left;
+            retVal = retVal.left;
         }
         return retVal;
     }
     public AVLNode maximum(AVLNode t) {
         AVLNode retVal = t;
         while (retVal.right != null) {
-            retVal = t.right;
+            retVal = retVal.right;
         }
         return retVal;
     }

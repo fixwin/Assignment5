@@ -40,6 +40,7 @@ public class PointDataStructure implements PDT {
 			}
 		}
 		tree.root = tree.sortedArrayToTree(sortedPointsArr,0,sortedPointsArr.length-1);
+		tree.n = sortedPointsArr.length;
 	}
 	private boolean checkSorted(Point[] points) { //O(n)
 		if (points.length <= 1) return true;
@@ -86,7 +87,7 @@ public class PointDataStructure implements PDT {
 	public Point[] getPointsInRange(int XLeft, int XRight) {
 //		AVLNode pL = tree.search(tree.root,XLeft);
 //		AVLNode pR = tree.search(tree.root,XLeft);
-		tree.printTree();
+		//tree.printTree();
 		Point[] pInR = new Point[numOfPointsInRange(XLeft,XRight)];
 		getPointsIndex = 0;
 		getPointsInRangeHandler(tree.root,XLeft,XRight,pInR);
