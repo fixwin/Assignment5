@@ -144,6 +144,47 @@ class AVLTree {
         }
         return retVal;
     }
+    AVLNode deleteRec(AVLNode root, Point p)
+    {
+        /* Base Case: If the tree is empty */
+        if (root == null)  return root;
+
+        /* Otherwise, recur down the tree */
+        if (p.getX() < root.p.getX())
+            root.left = deleteRec(root.left, p);
+        else if (p.getX() > root.p.getX())
+            root.right = deleteRec(root.right, p);
+
+            // if key is same as root's key, then This is the node
+            // to be deleted
+        else
+        {
+            // node with only one child or no child
+            if (root.left == null)
+                return root.right;
+            else if (root.right == null)
+                return root.left;
+
+            // node with two children: Get the inorder successor (smallest
+            // in the right subtree)
+            root.p = minValue(root.right);
+
+            // Delete the inorder successor
+            root.right = deleteRec(root.right, root.p);
+        }
+        updateParams(root);
+        return root;
+    }
+    Point minValue(AVLNode root)
+    {
+        Point minv = root.p;
+        while (root.left != null)
+        {
+            minv = root.left.p;
+            root = root.left;
+        }
+        return minv;
+    }
     public AVLNode remove(Point p, AVLNode t) {
         AVLNode retVal = null;
         if(t.p.equals(p)) { //if found node

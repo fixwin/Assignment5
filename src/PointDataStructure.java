@@ -129,11 +129,11 @@ public class PointDataStructure implements PDT {
 	@Override
 	public void removeMedianPoint() {
 		AVLNode n = tree.search(tree.root,median.getX());
-		tree.remove(n.p, tree.root);
+		tree.root = tree.deleteRec(tree.root, median);
 
 		if(maxHeap.n == minHeap.n) {
-			this.median = maxHeap.getMax();
-			maxHeap.delete();
+			this.median = minHeap.getMin();
+			minHeap.delete();
 		}
 		else if(maxHeap.n> minHeap.n) {
 			this.median = maxHeap.getMax();
