@@ -57,25 +57,49 @@ class AVLTree {
 
     /* Function to insert data recursively */
     private AVLNode insert(Point p, AVLNode t) {
-        if (t == null)
+        if (t == null) {
             t = new AVLNode(p);
+            return t;
+        }
         else if (p.getX() < t.p.getX()) {
             t.left = insert(p, t.left);
-            if (height(t.left) - height(t.right) == 2)
+            /*if (height(t.left) - height(t.right) == 2)
                 if (p.getX() < t.left.p.getX()) t = rotateWithLeftChild(t);
-                else t = doubleWithLeftChild(t);
+                else t = doubleWithLeftChild(t);*/
         } else if (p.getX() > (t.p.getX())) {
             t.right = insert(p, t.right);
-            if (height(t.right) - height(t.left) == 2)
+            /*if (height(t.right) - height(t.left) == 2)
                 if (p.getX() > (t.right.p.getX()))
                     t = rotateWithRightChild(t);
                 else
-                    t = doubleWithRightChild(t);
+                    t = doubleWithRightChild(t);*/
         }
-        t.height = height(t);
-        if(t.left != null) t.numOfLeftChildren+=1;
-        if(t.right != null) t.RightYsum +=1;
+        updateParams(t);
         return t;
+    }
+
+    void updateParams(AVLNode t) {
+        if(t.left!= null && t.right != null) {
+            t.numOfChildren = t.left.numOfChildren + t.right.numOfChildren + 2;
+            t.numOfLeftChildren = t.left.numOfChildren + 1;
+
+            t.totalYsum = t.left.totalYsum + t.right.totalYsum + t.left.p.getY() + t.right.p.getY();
+            t.RightYsum = t.right.totalYsum + t.right.p.getY();
+        }
+        else if(t.left==null && t.right!=null) { //if only right exists
+            t.numOfChildren = t.right.numOfChildren + 1;
+            t.numOfLeftChildren = 0;
+
+            t.totalYsum = t.right.totalYsum + t.right.p.getY();
+            t.RightYsum = t.right.totalYsum + t.right.p.getY();
+        }
+        else /*if(t.left!=null && t.right==null)*/ { //if only left exists
+            t.numOfChildren = t.left.numOfChildren +1;
+            t.numOfLeftChildren = t.left.numOfChildren+1;
+
+            t.totalYsum = t.left.totalYsum+t.left.p.getY();
+            t.RightYsum = 0;
+        }
     }
 
     /* Rotate binary tree node with left child */
@@ -97,8 +121,56 @@ class AVLTree {
         k2.height = height(k2);
         return k2;
     }
-    public AVLNode remove(AVLNode t) {
-
+    /*public AVLNode successor(AVLNode t) {
+        AVLNode retVal;
+        if(t.right !=null) {
+            return minimum(retVal);
+        }
+        if(t.right == null && t.left == null) retVal = t;//if
+        while (true)
+    }*/
+    public AVLNode minimum(AVLNode t) {
+        AVLNode retVal = t;
+        while (retVal.left != null) {
+            retVal = t.left;
+        }
+        return retVal;
+    }
+    public AVLNode maximum(AVLNode t) {
+        AVLNode retVal = t;
+        while (retVal.right != null) {
+            retVal = t.right;
+        }
+        return retVal;
+    }
+    public AVLNode remove(Point p, AVLNode t) {
+        AVLNode retVal = null;
+        if(t.p.equals(p)) { //if found node
+            if(t.left != null && t.right != null) {
+                retVal = minimum(t.right);
+            }
+            else if(t.left != null && t.right==null) {
+                retVal = t.left;
+            }
+            else {
+                retVal = t.right;
+            }
+        }
+        else if (p.getX() < t.p.getX()) {
+            t.left = remove(p, t.left);
+            /*if (height(t.left) - height(t.right) == 2)
+                if (p.getX() < t.left.p.getX()) t = rotateWithLeftChild(t);
+                else t = doubleWithLeftChild(t);*/
+        } else if (p.getX() > (t.p.getX())) {
+            t.right = remove(p, t.right);
+            /*if (height(t.right) - height(t.left) == 2)
+                if (p.getX() > (t.right.p.getX()))
+                    t = rotateWithRightChild(t);
+                else
+                    t = doubleWithRightChild(t);*/
+        }
+        updateParams(t);
+        return retVal;
     }
     private Point findMax(AVLNode nd) {
         AVLNode a = nd;
@@ -161,7 +233,7 @@ class AVLTree {
     private void printTree(AVLNode t) {
         if (t != null) {
             printTree(t.left);
-            System.out.println(t.p.getX());
+            System.out.println(t.p.getX() + " Yr: "+t.RightYsum +". Ytot: " + t.totalYsum);
             printTree(t.right);
         }
     }

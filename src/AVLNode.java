@@ -5,7 +5,7 @@ class AVLNode
     int height;
     AVLNode parent;
     Point p;
-    int numOfLeftChildren, RightYsum;
+    int numOfLeftChildren, numOfChildren, RightYsum, leftYsum, totalYsum;
 
     /* Constructor */
     public AVLNode(Point p)
@@ -14,9 +14,12 @@ class AVLNode
         left = null;
         right = null;
         height = 1;
-        numOfLeftChildren = -1;
+        numOfLeftChildren = 0;
         RightYsum = 0;
+        totalYsum = 0;
+        leftYsum = 0;
     }
+
     /* Constructor */
 //    public AVLNode(Comparable n)
 //    {
