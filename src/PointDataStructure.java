@@ -1,14 +1,21 @@
+import java.security.PublicKey;
 
 public class PointDataStructure implements PDT {
 	Point median;
 	MaxHeap maxHeap;
 	MinHeap minHeap;
 	Point[] sortedPointsArr;
+
 	int medianIndex;
+	public AVLTree tree;
+	//Point[] getPointsInRange;
+	int getPointsIndex;
+	int allPointsIndex;
 	//////////////// DON'T DELETE THIS CONSTRUCTOR ////////////////
 	public PointDataStructure(Point[] points, Point initialYMedianPoint) {
+		tree = new AVLTree();
 		this.median = initialYMedianPoint;
-		sortedPointsArr = new Point[points.length +(int)(Math.log(points.length)/Math.log(2))]; //add log to the array size
+		sortedPointsArr = new Point[points.length/*points.length +(int)(Math.log(points.length)/Math.log(2))*/]; //add log to the array size
 		maxHeap = new MaxHeap();
 		minHeap = new MinHeap();
 		boolean isSorted = checkSorted(points);
@@ -32,6 +39,7 @@ public class PointDataStructure implements PDT {
 				sortedPointsArr[points[j].getX()] = points[j];
 			}
 		}
+		tree.root = tree.sortedArrayToTree(sortedPointsArr,0,sortedPointsArr.length-1);
 	}
 	private boolean checkSorted(Point[] points) { //O(n)
 		if (points.length <= 1) return true;
@@ -72,28 +80,56 @@ public class PointDataStructure implements PDT {
 				maxHeap.delete();
 			}
 		}
+		tree.insert(point);
 	}
 	@Override
 	public Point[] getPointsInRange(int XLeft, int XRight) {
-		// TODO Auto-generated method stub
-		return null;
+//		AVLNode pL = tree.search(tree.root,XLeft);
+//		AVLNode pR = tree.search(tree.root,XLeft);
+		tree.printTree();
+		Point[] pInR = new Point[numOfPointsInRange(XLeft,XRight)];
+		getPointsIndex = 0;
+		getPointsInRangeHandler(tree.root,XLeft,XRight,pInR);
+		return pInR;
+	}
+	public void getPointsInRangeHandler(AVLNode node,int XLeft, int XRight,Point[] pInR) {
+		if (node == null) {
+			return;
+		}
+
+		if (XLeft < node.p.getX()) {
+			getPointsInRangeHandler(node.left, XLeft, XRight,pInR);
+		}
+		if (XLeft <= node.p.getX() && XRight >= node.p.getX()) {
+			pInR[getPointsIndex] = node.p;
+			getPointsIndex++;
+		}
+
+		if (XRight > node.p.getX()) {
+			getPointsInRangeHandler(node.right, XLeft, XRight,pInR);
+		}
 	}
 
 	@Override
 	public int numOfPointsInRange(int XLeft, int XRight) {
-		// TODO Auto-generated method stub
-		return 0;
+		int left = tree.getNumGreaterPoints(tree.root,XLeft);
+		int right = tree.getNumGreaterPoints(tree.root,XRight);
+		return (left - right+1);
 	}
 
 	@Override
 	public double averageHeightInRange(int XLeft, int XRight) {
-		// TODO Auto-generated method stub
-		return 0;
+		int num = numOfPointsInRange(XLeft,XRight);
+		int left = tree.getNumGreaterEqualPointsY(tree.root,XLeft);
+		int right = tree.getNumGreaterPointsY(tree.root,XRight);
+		return (double) (left - right)/num;
 	}
 
 	@Override
 	public void removeMedianPoint() {
-		//TODO
+		AVLNode n = tree.search(tree.root,median.getX());
+		tree.remove(n.p, tree.root);
+
 		if(maxHeap.n == minHeap.n) {
 			this.median = maxHeap.getMax();
 			maxHeap.delete();
@@ -110,14 +146,24 @@ public class PointDataStructure implements PDT {
 
 	@Override
 	public Point[] getMedianPoints(int k) {
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
 	@Override
 	public Point[] getAllPoints() {
-		// TODO Auto-generated method stub
-		return null;
+		Point[] pArr = new Point[maxHeap.n+minHeap.n + 1];
+		int pArrIndex = 0;
+		for (int j=0; j<maxHeap.n; j++) {
+			pArr[pArrIndex] = maxHeap.heap[j];
+			pArrIndex++;
+		}
+		for (int j=0; j<minHeap.n; j++) {
+			pArr[pArrIndex] = minHeap.heap[j];
+			pArrIndex++;
+		}
+		pArr[pArrIndex] = this.median;
+		return pArr;
 	}
 
 	//TODO: add members, methods, etc.

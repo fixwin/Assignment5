@@ -11,21 +11,21 @@ public class Main {
 
 	public static void main(String[] args) 
 	{
-		//testA();
+		testA();
 		//testB();
 		//testC();
-		AVLTree t = new AVLTree();
-		Point a0 = new Point(0,2);
+		/*AVLTree t = new AVLTree();
+		Point a0 = new Point(0,0);
 		Point a = new Point(1,2);
-		Point b = new Point(2,2);
-		Point c = new Point(3,2);
-		Point d = new Point(4,2);
-		Point e = new Point(5,2);
+		Point b = new Point(2,3);
+		Point c = new Point(3,1);
+		Point d = new Point(4,4);*/
+		/*Point e = new Point(5,2);
 		Point f = new Point(6,2);
 		Point g = new Point(7,2);
-		Point am1 = new Point(-1,2);
-
-		t.insert(a);
+		Point am1 = new Point(-1,2);*/
+//		Point[] sortedPointsArr = {a0,a,b,c,d};
+		/*t.insert(a);
 		t.insert(b);
 		t.insert(c);
 		t.insert(d);
@@ -33,17 +33,18 @@ public class Main {
 		t.insert(g);
 		t.insert(f);
 		t.insert(am1);
-		t.insert(a0);
-
-		t.remove(am1,t.root);
-		t.printTree();
+		t.insert(a0);*/
+//		t.root = t.sortedArrayToTree(sortedPointsArr,0,sortedPointsArr.length-1);
+//		AVLNode k = t.search(t.root,-1);
+//		t.remove(k.p,t.root);
+//		t.printTree();
 	}
 
 	
 	private static void testA()
 	{
 		Point[] points = {
-				new Point(0, 0), 
+				new Point(0, 0),
 				new Point(3, 1),
 				new Point(2, 3),
 				new Point(1, 2),
@@ -54,7 +55,8 @@ public class Main {
 		String testName;
 		int expected;
 		int result;
-		
+		//PointDataStructure pds = new PointDataStructure(points,points[3]);
+		//pds.tree.printTree();
 		testName = "A0";
 		testExpectedPoints(testName, points, pdt.getAllPoints());
 
@@ -72,25 +74,25 @@ public class Main {
 		double resultD = pdt.averageHeightInRange(XLeft, XRight);
 		testExpected(testName, expectedD, resultD);
 		
-		testName = "A3.1";
-		Point[] expectedPoints1 = {
-				new Point(1, 2),
-				};
-		testExpectedPoints(testName, expectedPoints1, pdt.getMedianPoints(1));
-		testName = "A3.2";
-		Point[] expectedPoints2 = { 
-				new Point(3, 1),
-				new Point(1, 2),
-				};
-		testExpectedPoints(testName, expectedPoints2, pdt.getMedianPoints(2));
-		testName = "A3.3";
-		Point[] expectedPoints3 = { 
-				new Point(3, 1),
-				new Point(2, 3),
-				new Point(1, 2),
-				};
-		testExpectedPoints(testName, expectedPoints3, pdt.getMedianPoints(3));
-		
+//		testName = "A3.1";
+//		Point[] expectedPoints1 = {
+//				new Point(1, 2),
+//				};
+//		//testExpectedPoints(testName, expectedPoints1, pdt.getMedianPoints(1));
+//		testName = "A3.2";
+//		Point[] expectedPoints2 = {
+//				new Point(3, 1),
+//				new Point(1, 2),
+//				};
+//		//testExpectedPoints(testName, expectedPoints2, pdt.getMedianPoints(2));
+//		testName = "A3.3";
+//		Point[] expectedPoints3 = {
+//				new Point(3, 1),
+//				new Point(2, 3),
+//				new Point(1, 2),
+//				};
+//		//testExpectedPoints(testName, expectedPoints3, pdt.getMedianPoints(3));
+
 		Point[] points2 = {
 				new Point(1, 4), 
 				new Point(2, 7),

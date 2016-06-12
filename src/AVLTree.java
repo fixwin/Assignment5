@@ -2,11 +2,12 @@
 
 /* Class AVLTree */
 class AVLTree {
+    int n;
     public AVLNode root;
 
     /* Constructor */
     public AVLTree() {
-        //Complete Your Code Here
+        this.n = 0;
     }
 
     /* Function to check if tree is empty */
@@ -59,6 +60,7 @@ class AVLTree {
     private AVLNode insert(Point p, AVLNode t) {
         if (t == null) {
             t = new AVLNode(p);
+            this.n++;
             return t;
         }
         else if (p.getX() < t.p.getX()) {
@@ -82,7 +84,6 @@ class AVLTree {
         if(t.left!= null && t.right != null) {
             t.numOfChildren = t.left.numOfChildren + t.right.numOfChildren + 2;
             t.numOfLeftChildren = t.left.numOfChildren + 1;
-
             t.totalYsum = t.left.totalYsum + t.right.totalYsum + t.left.p.getY() + t.right.p.getY();
             t.RightYsum = t.right.totalYsum + t.right.p.getY();
         }
@@ -93,7 +94,7 @@ class AVLTree {
             t.totalYsum = t.right.totalYsum + t.right.p.getY();
             t.RightYsum = t.right.totalYsum + t.right.p.getY();
         }
-        else /*if(t.left!=null && t.right==null)*/ { //if only left exists
+        else if(t.left!=null && t.right==null) { //if only left exists
             t.numOfChildren = t.left.numOfChildren +1;
             t.numOfLeftChildren = t.left.numOfChildren+1;
 
@@ -210,8 +211,63 @@ class AVLTree {
     public boolean search(Comparable val) {
         return false;
     }
-
-    private AVLNode search(AVLNode t, int xVal) {
+    public int getNumGreaterPoints(AVLNode t, int xVal) {
+        int cnt=0;
+        while( t != null ) {
+            if (xVal < t.p.getX()) {
+                if(t.right!= null) cnt += t.right.numOfChildren+1;
+                t = t.left;
+                cnt+=1;
+            }
+            else if (xVal > t.p.getX()){
+                t = t.right;
+            }
+            else { //if found
+                if (t.right!=null) cnt += t.right.numOfChildren +1;
+                break;
+            }
+        }
+        return cnt;
+    }
+    public int getNumGreaterPointsY(AVLNode t, int xVal) {
+        int cnt=0;
+        while( t != null ) {
+            if (xVal < t.p.getX()) {
+                if(t.right!= null) cnt += t.right.totalYsum + t.right.p.getY();
+                cnt += t.p.getY();
+                t = t.left;
+            }
+            else if (xVal > t.p.getX()){
+                t = t.right;
+            }
+            else {
+                //cnt +=t.p.getY();
+                if (t.right!=null) cnt += t.right.totalYsum+t.right.p.getY();
+                break;
+            }
+        }
+        return cnt;
+    }
+    public int getNumGreaterEqualPointsY(AVLNode t, int xVal) {
+        int cnt=0;
+        while( t != null ) {
+            if (xVal < t.p.getX()) {
+                if(t.right!= null) cnt += t.right.totalYsum + t.right.p.getY();
+                cnt += t.p.getY();
+                t = t.left;
+            }
+            else if (xVal > t.p.getX()){
+                t = t.right;
+            }
+            else {
+                cnt +=t.p.getY();
+                if (t.right!=null) cnt += t.right.totalYsum+t.right.p.getY();
+                break;
+            }
+        }
+        return cnt;
+    }
+    public AVLNode search(AVLNode t, int xVal) {
         while( t != null ) {
             if (xVal < t.p.getX()) t = t.left;
             else if (xVal > t.p.getX()) t = t.right;
@@ -229,17 +285,27 @@ class AVLTree {
     private void inorder(AVLNode r, PrintWriter out) {
         //Complete Your Code Here
     }*/
-
     private void printTree(AVLNode t) {
         if (t != null) {
             printTree(t.left);
-            System.out.println(t.p.getX() + " Yr: "+t.RightYsum +". Ytot: " + t.totalYsum);
+            System.out.println(t.p.getX() + " Yr: "+t.RightYsum +". Ytot: " + t.totalYsum +". totChld " + t.numOfChildren);
             printTree(t.right);
         }
     }
 
     public void printTree() {
         printTree(root);
+    }
+    AVLNode sortedArrayToTree(Point arr[], int start, int end) {
+        if (start > end) {
+            return null;
+        }
+        int mid = start + (end-start)/ 2;
+        AVLNode node = new AVLNode(arr[mid]);
+        node.left = sortedArrayToTree(arr, start, mid - 1);
+        node.right = sortedArrayToTree(arr, mid + 1, end);
+        updateParams(node);
+        return node;
     }
 
 }
