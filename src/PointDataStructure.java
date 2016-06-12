@@ -146,8 +146,38 @@ public class PointDataStructure implements PDT {
 
 	@Override
 	public Point[] getMedianPoints(int k) {
+		int l = (k - 1) / 2;
+		int h = (k - 1) / 2;
+		if (k % 2 == 0) {
+			l = k / 2;
+		}
+		int popped = 0;
+		Point[] ret = new Point[k];
+		MaxHeap max = new MaxHeap();
+		max.insert(new xPoint(maxHeap.heap[0].getX(), maxHeap.heap[0].getY(), 0));
+		for (int i = 0; i < l; i++) {
+			popped = ((xPoint) max.getMax()).index;
+			ret[i] = maxHeap.heap[popped];
+			max.delete();
+			if (popped * 2 + 1 < maxHeap.n)
+				max.insert(new xPoint(maxHeap.heap[popped * 2 + 1].getX(), maxHeap.heap[popped * 2 + 1].getY(), popped * 2 + 1));
+			if (popped * 2 + 2 < maxHeap.n)
+				max.insert(new xPoint(maxHeap.heap[popped * 2 + 2].getX(), maxHeap.heap[popped * 2 + 2].getY(), popped * 2 + 2));
+		}
 
-		return null;
+		MinHeap min = new MinHeap();
+		min.insert(new xPoint(minHeap.heap[0].getX(), minHeap.heap[0].getY(), 0));
+		for (int i = 0; i < h; i++) {
+			popped = ((xPoint) min.getMin()).index;
+			ret[i + l] = minHeap.heap[popped];
+			min.delete();
+			if (popped * 2 + 1 < minHeap.n)
+				min.insert(new xPoint(minHeap.heap[popped * 2 + 1].getX(), minHeap.heap[popped * 2 + 1].getY(), popped * 2 + 1));
+			if (popped * 2 + 2 < minHeap.n)
+				min.insert(new xPoint(minHeap.heap[popped * 2 + 2].getX(), minHeap.heap[popped * 2 + 2].getY(), popped * 2 + 2));
+		}
+		ret[k-1] = median;
+		return ret;
 	}
 
 	@Override
@@ -167,6 +197,16 @@ public class PointDataStructure implements PDT {
 	}
 
 	//TODO: add members, methods, etc.
+
+	private class xPoint extends Point {
+
+		int index;
+
+		public xPoint(int x, int y, int index) {
+			super(x, y);
+			this.index = index;
+		}
+	}
 
 }
 
