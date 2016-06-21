@@ -16,8 +16,9 @@ public class PointDataStructure implements PDT {
 		tree = new AVLTree();
 		this.median = initialYMedianPoint;
 		sortedPointsArr = new Point[points.length/*points.length +(int)(Math.log(points.length)/Math.log(2))*/]; //add log to the array size
-		maxHeap = new MaxHeap();
-		minHeap = new MinHeap();
+		int n = points.length +(int) (10*Math.log(points.length)/Math.log(2)) + points.length/*add points for safety*/;
+		maxHeap = new MaxHeap(n);
+		minHeap = new MinHeap(n);
 		boolean isSorted = checkSorted(points);
 		medianIndex = getMedianIndex(points,initialYMedianPoint);
 		for (int j=0; j<points.length; j++) {
@@ -113,14 +114,19 @@ public class PointDataStructure implements PDT {
 
 	@Override
 	public int numOfPointsInRange(int XLeft, int XRight) {
+		int maxVal = tree.maximum(tree.root).p.getX();//O(log n)
+		int minVal = tree.minimum(tree.root).p.getX();//O(log n)
+		if(XLeft > maxVal) return 0; //if left is greater than maximum value, nothing to check
 		int left = tree.getNumGreaterPoints(tree.root,XLeft);
 		int right = tree.getNumGreaterPoints(tree.root,XRight);
-		return (left - right+1);
+		if(XRight>maxVal && XLeft < minVal) return left - right;
+		else return left - right+1;
 	}
 
 	@Override
 	public double averageHeightInRange(int XLeft, int XRight) {
 		int num = numOfPointsInRange(XLeft,XRight);
+		if(num==0) return 0.0;//if there are no points in range
 		int left = tree.getNumGreaterEqualPointsY(tree.root,XLeft);
 		int right = tree.getNumGreaterPointsY(tree.root,XRight);
 		return (double) (left - right)/num;
@@ -154,7 +160,7 @@ public class PointDataStructure implements PDT {
 		}
 		int popped = 0;
 		Point[] ret = new Point[k];
-		MaxHeap max = new MaxHeap();
+		MaxHeap max = new MaxHeap(k);
 		max.insert(new xPoint(maxHeap.heap[0].getX(), maxHeap.heap[0].getY(), 0));
 		for (int i = 0; i < l; i++) {
 			popped = ((xPoint) max.getMax()).index;
@@ -166,7 +172,7 @@ public class PointDataStructure implements PDT {
 				max.insert(new xPoint(maxHeap.heap[popped * 2 + 2].getX(), maxHeap.heap[popped * 2 + 2].getY(), popped * 2 + 2));
 		}
 
-		MinHeap min = new MinHeap();
+		MinHeap min = new MinHeap(k);
 		min.insert(new xPoint(minHeap.heap[0].getX(), minHeap.heap[0].getY(), 0));
 		for (int i = 0; i < h; i++) {
 			popped = ((xPoint) min.getMin()).index;

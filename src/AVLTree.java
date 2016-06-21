@@ -1,6 +1,9 @@
-//import java.io.PrintWriter;
+/*
+Most Important Message in History!!!
 
-/* Class AVLTree */
+THIS IS NOT AN AVL TREE AS THE TITLE SUGGESTS, BUT A REGULAR BST BUILT UPON THE ASHES OF THE AVL FROM ASSIGNMENT 3!
+
+ */
 class AVLTree {
     int n;
     public AVLNode root;

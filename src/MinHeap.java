@@ -1,12 +1,12 @@
 public class MinHeap {
-	public Point heap[] = new Point[10000];
+	public Point heap[];
 	public int n, child, parent, child1, child2;
 
 	public void insert(Point value){
 		heap[n] = value; // insert the new value into the end of the array
 
 		parent = (n+1)/2 - 1;
-		if(parent < 0) {n++; return;} // if the heap contains only one node, then return immediately
+		if(parent < 0) {n++; return;}
 		child = n;
 
 		// bubble up
@@ -23,10 +23,11 @@ public class MinHeap {
 		}
 		n++;
 	}
+	MinHeap(int size) {
+		this.heap = new Point[size];
+	}
 
 	public Point delete(){
-
-		// bring the last element of the array into the first position
 		Point ele = heap[0];
 		heap[0] = heap[n-1];
 
@@ -37,10 +38,8 @@ public class MinHeap {
 			child1 = parent*2 + 1;
 			child2 = parent*2 + 2;
 
-			// condition for when to stop bubble down
 			if(child1 > n-1 || child2 > n-1) break;
 
-			// swap the parent with the least of its children in the case of min heap
 			if((heap[parent].getY() > heap[child1].getY() || (heap[parent].getY() == heap[child1].getY() && heap[parent].getX() > heap[child1].getX()))
 					|| (heap[parent].getY() > heap[child2].getY() || (heap[parent].getY() == heap[child2].getY() && heap[parent].getX() > heap[child2].getX()))){
 
@@ -60,10 +59,9 @@ public class MinHeap {
 			else break;
 		}
 		n--;
-		return ele; // return the root(or min) element of the heap
+		return ele;
 	}
 
-	// function to simply return the min element(or root) of the heap without deleting it
 	public Point getMin(){
 		return heap[0];
 	}
